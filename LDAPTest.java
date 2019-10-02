@@ -29,9 +29,15 @@ public class LDAPTest {
 
     public static void main(String[] args){
 
-        if(args != null  && args.length == 2) {
+        if(args != null  && args.length == 1) {
+            LDAP_PASSWORD = args[0];
+        }else if(args != null  && args.length == 2) {
             LDAP_PASSWORD = args[0];
             KEYSTORE = args[1];
+        }else if(args != null  && args.length == 3) {
+            LDAP_PASSWORD = args[0];
+            KEYSTORE = args[1];
+            KEYSTORE_PASSWORD = args[2];
         }
 
         System.out.println("LDAP URL: " + LDAP_URL);
