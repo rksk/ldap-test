@@ -23,6 +23,7 @@ public class LDAPTest {
     private static String SEARCH_FILTER = "(&(objectClass=person)(uid=admin))";
     private static String ATTRIBUTE_TO_PRINT = "uid";
     private static String KEYSTORE = "";
+    private static String KEYSTORE_PASSWORD = "wso2carbon";
     private static int NUMBER_OF_ITERATIONS = 10;
 
     public static void main(String[] args){
@@ -40,7 +41,7 @@ public class LDAPTest {
         System.out.println("Trust store location: " + KEYSTORE);
 
         System.setProperty("javax.net.ssl.trustStore", KEYSTORE);
-        System.setProperty("javax.net.ssl.trustStorePassword", "wso2carbon");
+        System.setProperty("javax.net.ssl.trustStorePassword", KEYSTORE_PASSWORD);
 
         System.out.println("\n============  Test is started  ================");
 
@@ -55,9 +56,10 @@ public class LDAPTest {
         DirContext ctx = null;
         NamingEnumeration<SearchResult> results = null;
         SearchResult searchResult = null;
-        try {
 
-            for(int i=0; i<NUMBER_OF_ITERATIONS; i++) {
+        for(int i=0; i<NUMBER_OF_ITERATIONS; i++) {
+
+            try {
                 System.out.println("\n\n===== Itertation " + i + " =====");
 
                 SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy HH:mm:ss.SSSZ");
@@ -69,7 +71,7 @@ public class LDAPTest {
                 ctx = new InitialDirContext(environment);
 
                 long t2 = System.currentTimeMillis();
-                System.out.println("============  Dir context is finished:  " +  (t2-t1) + "ms ================");
+                System.out.println("============  Dir context is finished:  " + (t2 - t1) + "ms ================");
 
                 SearchControls searchControls = new SearchControls();
                 searchControls.setSearchScope(SearchControls.SUBTREE_SCOPE);
@@ -77,10 +79,10 @@ public class LDAPTest {
                 results = ctx.search(LDAP_SEARCH_BASE, SEARCH_FILTER, searchControls);
 
                 long t3 = System.currentTimeMillis();
-                System.out.println("======= LDAP Search done: " +  (t3-t2) + "ms =======");
+                System.out.println("======= LDAP Search done: " + (t3 - t2) + "ms =======");
 
                 int index = 1;
-                while(results.hasMore()) {
+                while (results.hasMore()) {
                     try {
                         searchResult = results.next();
                         Attributes attrs = searchResult.getAttributes();
@@ -90,36 +92,36 @@ public class LDAPTest {
                         e.printStackTrace();
                     }
                 }
-                try {
-                    Thread.sleep(10000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+
+            } catch (NamingException e) {
+                System.out.println("An error occurred");
+                e.printStackTrace();
+            } finally {
+                if (results != null) {
+                    try {
+                        results.close();
+                    } catch (NamingException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (ctx != null) {
+                    try {
+                        ctx.close();
+                    } catch (NamingException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 
-        } catch (NamingException e) {
-            System.out.println("An error occurred");
-            e.printStackTrace();
-        }finally {
-            if(results != null) {
-                try {
-                    results.close();
-                } catch (NamingException e) {
-                    e.printStackTrace();
-                }
-            }
-            if(ctx != null) {
-                try {
-                    ctx.close();
-                } catch (NamingException e) {
-                    e.printStackTrace();
-                }
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
 
         System.out.println("=====  Test is finished =====");
         System.exit(0);
     }
-
 
 }
