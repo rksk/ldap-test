@@ -17,7 +17,7 @@ A Java client to view the time spent for creating LDAP connections and querying.
     private static String ATTRIBUTE_TO_PRINT = "uid";
         User/Group attribute to print in the log
     private static String LDAP_REFERRAL = "follow";
-        Whether to follow or ignore LDAP referrals
+        Whether to follow or ignore LDAP Referrals
     private static String KEYSTORE = "";
         Java Keystore (TrustStore) file if you are going to use LDAPS
     private static String KEYSTORE_PASSWORD = "wso2carbon";
@@ -45,6 +45,9 @@ java LDAPTest ldappassword /path/to/truststore.jks
 java LDAPTest ldappassword /path/to/truststore.jks keystorepassword
 ```
 
+---
+##### TODO
+* LDAP pool configuration
 
 ---
 Derived initial version from http://soasecurity.org and improved later.
