@@ -22,6 +22,7 @@ public class LDAPTest {
     private static String LDAP_SEARCH_BASE = "ou=Users,dc=wso2,dc=org";
     private static String SEARCH_FILTER = "(&(objectClass=person)(uid=admin))";
     private static String ATTRIBUTE_TO_PRINT = "uid";
+    private static String LDAP_REFERRAL = "follow"; //follow or ignore
     private static String KEYSTORE = "";
     private static String KEYSTORE_PASSWORD = "wso2carbon";
     private static int NUMBER_OF_ITERATIONS = 10;
@@ -44,6 +45,7 @@ public class LDAPTest {
         System.out.println("LDAP User: " + LDAP_USER);
         System.out.println("LDAP Search Base: " + LDAP_SEARCH_BASE);
         System.out.println("LDAP Search Filter: " + SEARCH_FILTER);
+        System.out.println("LDAP Referral: " + LDAP_REFERRAL);
         System.out.println("LDAP Attribute: " + ATTRIBUTE_TO_PRINT);
         System.out.println("Trust store location: " + KEYSTORE);
 
@@ -55,7 +57,7 @@ public class LDAPTest {
         Hashtable<String, String > environment = new Hashtable<String, String >();
         environment.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
         environment.put(Context.SECURITY_AUTHENTICATION, "simple");
-        environment.put(Context.REFERRAL, "follow");
+        environment.put(Context.REFERRAL, LDAP_REFERRAL);
         environment.put(Context.PROVIDER_URL, LDAP_URL);
         environment.put(Context.SECURITY_PRINCIPAL, LDAP_USER);
         environment.put(Context.SECURITY_CREDENTIALS, LDAP_PASSWORD);

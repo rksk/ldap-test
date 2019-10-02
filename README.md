@@ -16,6 +16,8 @@ A Java client to view the time spent for creating LDAP connections and querying.
         The filter to search for Users/Groups
     private static String ATTRIBUTE_TO_PRINT = "uid";
         User/Group attribute to print in the log
+    private static String LDAP_REFERRAL = "follow";
+        Whether to follow or ignore LDAP referrals
     private static String KEYSTORE = "";
         Java Keystore (TrustStore) file if you are going to use LDAPS
     private static String KEYSTORE_PASSWORD = "wso2carbon";
