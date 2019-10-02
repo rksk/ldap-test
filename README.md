@@ -2,7 +2,7 @@
 
 A Java client to view the time spent for creating LDAP connections and querying. In the meantime, it can be used to view the results for a given query. 
 
-######1. You have to configure following parameters first.
+##### 1. You have to configure following parameters first.
 
     private static String LDAP_URL = "ldap://localhost:10389";
         Connectiion URL
@@ -25,11 +25,11 @@ A Java client to view the time spent for creating LDAP connections and querying.
     private static long DELAY_BETWEEN_ITERATIONS = 2000; //ms
         Delay between two iterations in ms
         
-######2. Compile the LDAPTest.java using javac
+##### 2. Compile the LDAPTest.java using javac.
 ```javac LDAPTest.java```
 
-######3. Run the test
-Some examples on providing the parameters.
+##### 3. Run the test
+Some examples on specifying the parameters.
 ```
 java LDAPTest
 ```
