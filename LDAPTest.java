@@ -16,7 +16,7 @@ import java.util.Hashtable;
 
 public class LDAPTest {
 
-    private static String LDAP_URL = "ldap://<hostname>:<port>";
+    private static String LDAP_URL = "ldap://localhost:10389";
     private static String LDAP_USER = "uid=admin,ou=system";
     private static String LDAP_PASSWORD = "admin";
     private static String LDAP_SEARCH_BASE = "ou=Users,dc=wso2,dc=org";
@@ -25,6 +25,7 @@ public class LDAPTest {
     private static String KEYSTORE = "";
     private static String KEYSTORE_PASSWORD = "wso2carbon";
     private static int NUMBER_OF_ITERATIONS = 10;
+    private static long DELAY_BETWEEN_ITERATIONS = 2000; //ms
 
     public static void main(String[] args){
 
@@ -56,30 +57,31 @@ public class LDAPTest {
         DirContext ctx = null;
         NamingEnumeration<SearchResult> results = null;
         SearchResult searchResult = null;
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy HH:mm:ss.SSSZ");
+        long t1,t2,t3,t4;
 
-        for(int i=0; i<NUMBER_OF_ITERATIONS; i++) {
+        for(int i=1; i<=NUMBER_OF_ITERATIONS; i++) {
 
             try {
+                t1=0;t2=0;t3=0;t4=0;
                 System.out.println("\n\n===== Itertation " + i + " =====");
 
-                SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy HH:mm:ss.SSSZ");
-
-                long t1 = System.currentTimeMillis();
+                t1 = System.currentTimeMillis();
                 System.out.println(sdf.format(new Date(System.currentTimeMillis())));
-                System.out.println("============  Dir context started ================");
+                System.out.println("==  Dir context started ==");
 
                 ctx = new InitialDirContext(environment);
 
-                long t2 = System.currentTimeMillis();
-                System.out.println("============  Dir context is finished:  " + (t2 - t1) + "ms ================");
+                t2 = System.currentTimeMillis();
+                System.out.println("==  Dir context is finished:  " + (t2 - t1) + "ms ==");
 
                 SearchControls searchControls = new SearchControls();
                 searchControls.setSearchScope(SearchControls.SUBTREE_SCOPE);
 
                 results = ctx.search(LDAP_SEARCH_BASE, SEARCH_FILTER, searchControls);
 
-                long t3 = System.currentTimeMillis();
-                System.out.println("======= LDAP Search done: " + (t3 - t2) + "ms =======");
+                t3 = System.currentTimeMillis();
+                System.out.println("== LDAP Search done: " + (t3 - t2) + "ms ==");
 
                 int index = 1;
                 while (results.hasMore()) {
@@ -92,6 +94,9 @@ public class LDAPTest {
                         e.printStackTrace();
                     }
                 }
+
+                t4 = System.currentTimeMillis();
+                System.out.println("== Results printing done: " + (t4 - t3) + "ms ==");
 
             } catch (NamingException e) {
                 System.out.println("An error occurred");
@@ -114,7 +119,7 @@ public class LDAPTest {
             }
 
             try {
-                Thread.sleep(10000);
+                Thread.sleep(DELAY_BETWEEN_ITERATIONS);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
