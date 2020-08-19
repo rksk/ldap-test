@@ -92,16 +92,22 @@ public class LDAPTest {
                 System.out.println("== LDAP Search done: " + (t3 - t2) + "ms ==");
 
                 int index = 1;
-                while (results.hasMore()) {
-                    try {
-                        searchResult = results.next();
-                        Attributes attrs = searchResult.getAttributes();
-                        System.out.println(index++ + ". " + attrs.get(ATTRIBUTE_TO_PRINT));
-                    } catch (Exception e) {
-                        System.out.println("An error occurred");
-                        e.printStackTrace();
+                
+                try {
+                    while (results.hasMore()) {
+                        try {
+                            searchResult = results.next();
+                            Attributes attrs = searchResult.getAttributes();
+                            System.out.println(index++ + ". " + attrs.get(ATTRIBUTE_TO_PRINT));
+                        } catch (Exception e) {
+                            System.out.println("An error occurred");
+                            e.printStackTrace();
+                        }
                     }
-                }
+                } catch (NamingException e) {
+                    System.out.println("An error occurred while checking hasMore()");
+                    e.printStackTrace();
+                }                
 
                 t4 = System.currentTimeMillis();
                 System.out.println("== Results printing done: " + (t4 - t3) + "ms ==");
