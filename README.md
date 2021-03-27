@@ -45,9 +45,22 @@ java LDAPTest ldappassword /path/to/truststore.jks
 java LDAPTest ldappassword /path/to/truststore.jks keystorepassword
 ```
 
----
-##### TODO
-* LDAP pool configuration
+##### Test LDAP Connection Pooling
+```
+javac LDAPPoolingTest.java
+
+time java \
+ -DENABLE_CONNECTION_POOLING=true \
+ -Dcom.sun.jndi.ldap.connect.pool.maxsize=10 \
+ -Dcom.sun.jndi.ldap.connect.pool.debug=all \
+ -DNUMBER_OF_THREADS=100 \
+ -DNUMBER_OF_ITERATIONS=10 \
+ -DDELAY_BETWEEN_ITERATIONS=100 \
+ -DENABLE_DEBUG=true \
+ LDAPPoolingTest
+ ```
+
+More system properties related to connection pooling can be found at https://docs.oracle.com/javase/jndi/tutorial/ldap/connect/config.html
 
 ---
 Derived initial version from http://soasecurity.org and improved later.
